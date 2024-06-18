@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Work in progress"
-discord_link="https://discord.com/your-link-here"
+discord_link="https://discord.gg/N8Hs4pyR"
 
 # Check the operating system to determine the command to open the link
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
