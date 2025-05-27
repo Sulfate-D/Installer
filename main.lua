@@ -1,31 +1,34 @@
---! https://raw.githubusercontent.com/your-username/repo/main/secure_ws.lua
-local function ConnectWebSocket(key)
-    if not WebSocket then 
-        error("WebSocket not available") 
-    end
-
+-- PROTECTED WEBSOCKET CLIENT (main.lua)
+return function(key)
     local ws = WebSocket.connect("wss://1a0e-2601-156-8282-2260-44e2-304f-5dc9-27b3.ngrok-free.app")
     
-    ws:Send(key) -- Send the key for verification
-
-    ws.OnMessage = function(msg)
-        if msg == "key accepted" then
-            print("✅ Verified! Loading secure code...")
-            -- Load the actual protected script
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/your-private/repo/main/main.lua"))()
-        else
-            print("❌ Invalid key")
-            ws:Close()
-        end
-    end
-
-    -- Timeout after 5 seconds
+    -- Connection timeout
     task.delay(5, function()
         if ws.Connected then
             ws:Close()
-            print("⌛ Connection timeout")
+            error("Connection timeout")
         end
     end)
+    
+    -- Message handler
+    ws.OnMessage = function(msg)
+        if msg == "key accepted" then
+            print("✅ Verified - Loading secure module...")
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/your-private/repo/main/core.lua"))()
+        elseif msg == "key rejected" then
+            print("❌ Access denied")
+            ws:Close()
+        else
+            print("Server message:", msg)
+        end
+    end
+    
+    -- Send verification key
+    ws:Send(key)
+    
+    return {
+        Close = function()
+            ws:Close()
+        end
+    }
 end
-
-return ConnectWebSocket
