@@ -10,7 +10,7 @@ local function SecureWebSocketClient(key)
         if msg == "key accepted" then
             print("✅ Authorized")
             -- Load secure code from a DIFFERENT GitHub URL
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/your-private/repo/main/secure_code.lua"))()
+            print("hi")
         else
             print("❌ Access denied")
             ws:Close()
