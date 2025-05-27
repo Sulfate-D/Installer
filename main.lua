@@ -3,7 +3,7 @@
 local ws = WebSocket and WebSocket.connect("wss://1a0e-2601-156-8282-2260-44e2-304f-5dc9-27b3.ngrok-free.app")
 
 -- Your key to send for verification
-local yourKey;
+
 
 -- Message event
 ws.OnMessage:Connect(function(msg)
